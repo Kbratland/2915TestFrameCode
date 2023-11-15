@@ -22,6 +22,9 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import java.util.List;
+import frc.robot.commands.varChange025;
+import frc.robot.commands.varChange10;
+import frc.robot.commands.varChange05;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -30,12 +33,19 @@ import java.util.List;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
+public static double speedLimit = 0.15;
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final varChange025 vChange025 = new varChange025();
+  private final varChange05 vChange05 = new varChange05();
+  private final varChange10 vChange10 = new varChange10();
 
   // The driver's controller
   Joystick m_driverController = new Joystick(0);
+
+  JoystickButton button2 = new JoystickButton(m_driverController, 2);
+  JoystickButton button3 = new JoystickButton(m_driverController, 3);
+  JoystickButton button4 = new JoystickButton(m_driverController, 4);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -43,15 +53,15 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
+    
     // Configure default commands
     m_robotDrive.setDefaultCommand(
       new RunCommand(
         () ->
           m_robotDrive.drive(
-            MathUtil.applyDeadband(-m_driverController.getRawAxis(1), 0.05),
-            MathUtil.applyDeadband(-m_driverController.getRawAxis(0), 0.05),
-            MathUtil.applyDeadband(-m_driverController.getRawAxis(2), 0.05),
+            MathUtil.applyDeadband(-m_driverController.getRawAxis(1)* speedLimit, 0.1),
+            MathUtil.applyDeadband(-m_driverController.getRawAxis(0)* speedLimit, 0.1),
+            MathUtil.applyDeadband(-m_driverController.getRawAxis(2)* speedLimit, 0.1),
             true,
             true
           ),
@@ -70,8 +80,11 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, 4)
+    new JoystickButton(m_driverController, 5)
       .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+      button2.whileTrue(vChange025);
+      button3.whileTrue(vChange05);
+      button4.whileTrue(vChange10);
   }
 
   /**
