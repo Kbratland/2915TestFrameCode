@@ -9,5 +9,6 @@ public class varChange05 extends CommandBase{
     @Override
     public void initialize(){
         RobotContainer.speedLimit = 0.05;
+        System.out.println(RobotContainer.speedLimit);
     }
 }
