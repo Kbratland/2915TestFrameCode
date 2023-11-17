@@ -22,10 +22,10 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import java.util.List;
-import frc.robot.commands.varChange025;
-import frc.robot.commands.varChange10;
-import frc.robot.commands.varChange05;
-import frc.robot.commands.varChange075;
+// import frc.robot.commands.varChange025;
+// import frc.robot.commands.varChange10;
+// import frc.robot.commands.varChange05;
+// import frc.robot.commands.varChange075;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -34,21 +34,21 @@ import frc.robot.commands.varChange075;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-public static double speedLimit = 0.15;
+// public double speedLimit = 0.15;
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final varChange025 vChange025 = new varChange025();
-  private final varChange05 vChange05 = new varChange05();
-  private final varChange10 vChange10 = new varChange10();
-  private final varChange075 vChange075 = new varChange075();
+  // private final varChange025 vChange025 = new varChange025();
+  // private final varChange05 vChange05 = new varChange05();
+  // private final varChange10 vChange10 = new varChange10();
+  // private final varChange075 vChange075 = new varChange075();
 
   // The driver's controller
   Joystick m_driverController = new Joystick(0);
 
-  JoystickButton button1 = new JoystickButton(m_driverController, 1);
-  JoystickButton button2 = new JoystickButton(m_driverController, 2);
-  JoystickButton button3 = new JoystickButton(m_driverController, 3);
-  JoystickButton button4 = new JoystickButton(m_driverController, 4);
+  // JoystickButton button1 = new JoystickButton(m_driverController, 1);
+  // JoystickButton button2 = new JoystickButton(m_driverController, 2);
+  // JoystickButton button3 = new JoystickButton(m_driverController, 3);
+  // JoystickButton button4 = new JoystickButton(m_driverController, 4);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -62,9 +62,9 @@ public static double speedLimit = 0.15;
       new RunCommand(
         () ->
           m_robotDrive.drive(
-            MathUtil.applyDeadband(-m_driverController.getRawAxis(1)* speedLimit, 0.1),
-            MathUtil.applyDeadband(-m_driverController.getRawAxis(0)* speedLimit, 0.1),
-            MathUtil.applyDeadband(-m_driverController.getRawAxis(2)* speedLimit, 0.1),
+            MathUtil.applyDeadband(-m_driverController.getRawAxis(1)* 0.5, 0.1),
+            MathUtil.applyDeadband(-m_driverController.getRawAxis(0)* 0.5, 0.1),
+            MathUtil.applyDeadband(-m_driverController.getRawAxis(2)* 0.5, 0.1),
             true,
             true
           ),
@@ -82,19 +82,19 @@ public static double speedLimit = 0.15;
    * passing it to a
    * {@link JoystickButton}.
    */
-   //USE THIS ON LITTLEMANS RADIO ---------------------------------------------------->
-   //I FIXED THE CODE FOR YOU ALREADY, DONT TOUCH IT!!!!!!!
+   //USE THIS ON LITTLEMANS RADIO -------(pointing at radio app)------------------------>
+   //I FIXED THE CODE FOR YOU ALREADY, DON'T TOUCH IT!!!!!!!
   private void configureButtonBindings() {
     new JoystickButton(m_driverController, 5)
       .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
       //Trigger on front = 100%
-      button1.whileTrue(vChange10);
-      //backmost button = 75%
-      button2.whileTrue(vChange075);
-      //left side bumper = 50%
-      button3.whileTrue(vChange05);
-      //right side bumper = 25%
-      button4.whileTrue(vChange025);
+      // button1.whileTrue(vChange10);
+      // //backmost button = 75%
+      // button2.whileTrue(vChange075);
+      // //left side bumper = 50%
+      // button3.whileTrue(vChange05);
+      // //right side bumper = 25%
+      // button4.whileTrue(vChange025);
   }
 
   /**
