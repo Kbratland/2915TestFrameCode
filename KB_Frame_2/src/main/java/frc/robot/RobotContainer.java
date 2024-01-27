@@ -43,7 +43,7 @@ public class RobotContainer {
   // private final varChange075 vChange075 = new varChange075();
 
   // The driver's controller
-  Joystick m_driverController = new Joystick(0);
+  Joystick m_driverController = new Joystick(1);
 
   // JoystickButton button1 = new JoystickButton(m_driverController, 1);
   // JoystickButton button2 = new JoystickButton(m_driverController, 2);
@@ -62,9 +62,9 @@ public class RobotContainer {
       new RunCommand(
         () ->
           m_robotDrive.drive(
-            MathUtil.applyDeadband(-m_driverController.getRawAxis(1)* 0.5, 0.1),
-            MathUtil.applyDeadband(-m_driverController.getRawAxis(0)* 0.5, 0.1),
-            MathUtil.applyDeadband(-m_driverController.getRawAxis(2)* 0.5, 0.1),
+            MathUtil.applyDeadband(m_driverController.getRawAxis(1) * 0.5, 0.05),
+            MathUtil.applyDeadband(m_driverController.getRawAxis(0) * 0.5, 0.05),
+            MathUtil.applyDeadband(m_driverController.getRawAxis(4) * 3, 0.01),
             true,
             true
           ),
@@ -85,8 +85,10 @@ public class RobotContainer {
    //USE THIS ON LITTLEMANS RADIO -------(pointing at radio app)------------------------>
    //I FIXED THE CODE FOR YOU ALREADY, DON'T TOUCH IT!!!!!!!
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, 5)
+    new JoystickButton(m_driverController, 7)
       .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+    new JoystickButton(m_driverController, 9)
+      .whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
       //Trigger on front = 100%
       // button1.whileTrue(vChange10);
       // //backmost button = 75%
@@ -147,7 +149,7 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() ->
-      m_robotDrive.drive(0, 0, 0, false, false)
+      m_robotDrive.drive(0, 0, 0, true, false)
     );
   }
 }
