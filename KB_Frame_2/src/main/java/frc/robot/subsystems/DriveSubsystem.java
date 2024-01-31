@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.Supplier;
+// import java.util.function.Supplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,9 +20,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SerialPort;
+// import edu.wpi.first.wpilibj.SerialPort;
 
 public class DriveSubsystem extends SubsystemBase {
+
+  boolean fieldRelative=true;
 
   // Create MAXSwerveModules
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -136,7 +138,6 @@ public class DriveSubsystem extends SubsystemBase {
     double xSpeed,
     double ySpeed,
     double rot,
-    boolean fieldRelative,
     boolean rateLimit
   ) {
     double xSpeedCommanded;
@@ -210,16 +211,25 @@ public class DriveSubsystem extends SubsystemBase {
       ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
 
+    var speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+          xSpeedDelivered,
+          ySpeedDelivered,
+          rotDelivered,
+          Rotation2d.fromDegrees(m_gyro.getAngle()));
+    System.out.println("speeds " + speeds.vxMetersPerSecond + ", " + speeds.vyMetersPerSecond);
+
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
       fieldRelative
         ? ChassisSpeeds.fromFieldRelativeSpeeds(
           xSpeedDelivered,
           ySpeedDelivered,
           rotDelivered,
-          Rotation2d.fromDegrees(m_gyro.getAngle())
+          Rotation2d.fromDegrees(-m_gyro.getAngle())
         )
         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered)
     );
+
+
     SwerveDriveKinematics.desaturateWheelSpeeds(
       swerveModuleStates,
       DriveConstants.kMaxSpeedMetersPerSecond
@@ -230,21 +240,32 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
+  //   public ChassisSpeeds fromFieldRelativeSpeeds(
+  //     double vxMetersPerSecond,
+  //     double vyMetersPerSecond,
+  //     double omegaRadiansPerSecond,
+  //     Rotation2d robotAngle) {
+  //   return new ChassisSpeeds(
+  //       vxMetersPerSecond * robotAngle.getCos() + vyMetersPerSecond * robotAngle.getSin(),
+  //       vxMetersPerSecond * robotAngle.getSin() - vyMetersPerSecond * robotAngle.getCos(),
+  //       omegaRadiansPerSecond);
+  // }
+
   /**
    * Sets the wheels into an X formation to prevent movement.
    */
   public void setX() {
     m_frontLeft.setDesiredState(
-      new SwerveModuleState(0, Rotation2d.fromDegrees(45))
+      new SwerveModuleState(0, Rotation2d.fromDegrees(-45))
     );
     m_frontRight.setDesiredState(
-      new SwerveModuleState(0, Rotation2d.fromDegrees(-45))
+      new SwerveModuleState(0, Rotation2d.fromDegrees(45))
     );
     m_rearLeft.setDesiredState(
-      new SwerveModuleState(0, Rotation2d.fromDegrees(-45))
+      new SwerveModuleState(0, Rotation2d.fromDegrees(45))
     );
     m_rearRight.setDesiredState(
-      new SwerveModuleState(0, Rotation2d.fromDegrees(45))
+      new SwerveModuleState(0, Rotation2d.fromDegrees(-45))
     );
   }
 
@@ -263,7 +284,17 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearLeft.setDesiredState(desiredStates[2]);
     m_rearRight.setDesiredState(desiredStates[3]);
   }
-
+  public void setRelative()
+  {
+    if(fieldRelative)
+    {
+      fieldRelative = false;
+    }
+    else if(!fieldRelative)
+    {
+      fieldRelative = true;
+    }
+  }
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     m_frontLeft.resetEncoders();
