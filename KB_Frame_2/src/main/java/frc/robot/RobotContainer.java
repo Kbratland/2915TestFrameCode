@@ -89,6 +89,8 @@ public class RobotContainer {
       .whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     new JoystickButton(m_driverController, 8)
       .onTrue(new RunCommand(() -> m_robotDrive.setRelative(), m_robotDrive));
+    new JoystickButton(m_driverController, 8)
+      .whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     // new JoystickButton(m_driverController, 8).onTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
       //Trigger on front = 100%
       // button1.whileTrue(vChange10);
