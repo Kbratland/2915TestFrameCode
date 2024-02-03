@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -14,18 +16,16 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
-import java.util.List;
-// import frc.robot.commands.varChange025;
-// import frc.robot.commands.varChange10;
-// import frc.robot.commands.varChange05;
-// import frc.robot.commands.varChange075;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -101,7 +101,23 @@ public class RobotContainer {
       // //right side bumper = 25%
       // button4.whileTrue(vChange025);
   }
+  // public class ComplexAuto extends SequentialCommandGroup {
+  //   /**
+  //    * Creates a new ComplexAuto.
+  //    *
+  //    * @param drive The drive subsystem this command will run on
+  //    * @param hatch The hatch subsystem this command will run on
+  //    */
+  //   public ComplexAuto(DriveSubsystem drive) {
+  //     addCommands(
 
+  //       new setX(m_robotDrive.setX())
+          
+  //     );
+
+  //   }
+
+  // }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -121,10 +137,10 @@ public class RobotContainer {
       // Start at the origin facing the +X direction
       new Pose2d(0, 0, new Rotation2d(0)),
       // Pass through these two interior waypoints, making an 's' curve path
-      List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+      List.of(new Translation2d(1, 1), new Translation2d(-1, -1)),
       // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(3, 0, new Rotation2d(0)),
-      config
+      new Pose2d(0, 0, new Rotation2d(0)),
+      config 
     );
 
     var thetaController = new ProfiledPIDController(
@@ -146,13 +162,21 @@ public class RobotContainer {
       m_robotDrive::setModuleStates,
       m_robotDrive
     );
-
+    
     // Reset odometry to the starting pose of the trajectory.
     m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-
     // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() ->
-      m_robotDrive.drive(0, 0, 0, false)
-    );
+    // swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+    // return new SequentialCommandGroup(
+    //   // new RunCommand(()->m_robotDrive.drive(0, 0, 0, false), m_robotDrive),
+    //   new RunCommand(()-> m_robotDrive.setX(), m_robotDrive),
+    //   swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive)
+      
+    // );
+    return Commands.runOnce(() -> m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose()))
+        .andThen(swerveControllerCommand)
+        .andThen(Commands.runOnce(()-> m_robotDrive.zeroHeading()))
+        .andThen(Commands.run(() -> m_robotDrive.setX()));
   }
+  
 }
