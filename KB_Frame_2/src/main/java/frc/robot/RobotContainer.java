@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.util.List;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -26,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import java.util.List;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -34,7 +33,8 @@ import frc.robot.subsystems.DriveSubsystem;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-// public double speedLimit = 0.15;
+
+  // public double speedLimit = 0.15;
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   // private final varChange025 vChange025 = new varChange025();
@@ -56,7 +56,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    
+
     // Configure default commands
     m_robotDrive.setDefaultCommand(
       new RunCommand(
@@ -81,26 +81,31 @@ public class RobotContainer {
    * passing it to a
    * {@link JoystickButton}.
    */
-   //I FIXED THE CODE FOR YOU ALREADY, DON'T TOUCH IT!!!!!!!
+  //I FIXED THE CODE FOR YOU ALREADY, DON'T TOUCH IT!!!!!!!
   private void configureButtonBindings() {
     new JoystickButton(m_driverController, 7)
       .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
     new JoystickButton(m_driverController, 9)
-      .whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+      .whileTrue(
+        new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive)
+      );
     new JoystickButton(m_driverController, 8)
       .onTrue(new RunCommand(() -> m_robotDrive.setRelative(), m_robotDrive));
     new JoystickButton(m_driverController, 8)
-      .whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+      .whileTrue(
+        new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive)
+      );
     // new JoystickButton(m_driverController, 8).onTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
-      //Trigger on front = 100%
-      // button1.whileTrue(vChange10);
-      // //backmost button = 75%
-      // button2.whileTrue(vChange075);
-      // //left side bumper = 50%
-      // button3.whileTrue(vChange05);
-      // //right side bumper = 25%
-      // button4.whileTrue(vChange025);
+    //Trigger on front = 100%
+    // button1.whileTrue(vChange10);
+    // //backmost button = 75%
+    // button2.whileTrue(vChange075);
+    // //left side bumper = 50%
+    // button3.whileTrue(vChange05);
+    // //right side bumper = 25%
+    // button4.whileTrue(vChange025);
   }
+
   // public class ComplexAuto extends SequentialCommandGroup {
   //   /**
   //    * Creates a new ComplexAuto.
@@ -112,7 +117,7 @@ public class RobotContainer {
   //     addCommands(
 
   //       new setX(m_robotDrive.setX())
-          
+
   //     );
 
   //   }
@@ -140,7 +145,7 @@ public class RobotContainer {
       List.of(new Translation2d(1, 1), new Translation2d(-1, -1)),
       // End 3 meters straight ahead of where we started, facing forward
       new Pose2d(0, 0, new Rotation2d(0)),
-      config 
+      config
     );
 
     var thetaController = new ProfiledPIDController(
@@ -162,21 +167,16 @@ public class RobotContainer {
       m_robotDrive::setModuleStates,
       m_robotDrive
     );
-    
+
     // Reset odometry to the starting pose of the trajectory.
     m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
     // Run path following command, then stop at the end.
-    // swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
-    // return new SequentialCommandGroup(
-    //   // new RunCommand(()->m_robotDrive.drive(0, 0, 0, false), m_robotDrive),
-    //   new RunCommand(()-> m_robotDrive.setX(), m_robotDrive),
-    //   swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false), m_robotDrive)
-      
-    // );
-    return Commands.runOnce(() -> m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose()))
-        .andThen(swerveControllerCommand)
-        .andThen(Commands.runOnce(()-> m_robotDrive.zeroHeading()))
-        .andThen(Commands.run(() -> m_robotDrive.setX()));
+    return Commands
+      .runOnce(() ->
+        m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose())
+      )
+      .andThen(swerveControllerCommand)
+      .andThen(Commands.runOnce(() -> m_robotDrive.zeroHeading()))
+      .andThen(Commands.run(() -> m_robotDrive.setX()));
   }
-  
 }
