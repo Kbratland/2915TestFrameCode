@@ -15,15 +15,18 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.spinFire;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+
 import java.util.List;
 
 /*
@@ -37,14 +40,15 @@ public class RobotContainer {
   // public double speedLimit = 0.15;
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   // private final varChange025 vChange025 = new varChange025();
   // private final varChange05 vChange05 = new varChange05();
   // private final varChange10 vChange10 = new varChange10();
   // private final varChange075 vChange075 = new varChange075();
-
+  // private final spinFire m_shoot = new spinFire(m_shooter);
   // The driver's controller
   Joystick m_driverController = new Joystick(1);
-
+  Joystick m_twangController = new Joystick(2);
   // JoystickButton button1 = new JoystickButton(m_driverController, 1);
   // JoystickButton button2 = new JoystickButton(m_driverController, 2);
   // JoystickButton button3 = new JoystickButton(m_driverController, 3);
@@ -62,8 +66,8 @@ public class RobotContainer {
       new RunCommand(
         () ->
           m_robotDrive.drive(
-            MathUtil.applyDeadband(m_driverController.getRawAxis(1), 0.05),
-            MathUtil.applyDeadband(m_driverController.getRawAxis(0), 0.05),
+            MathUtil.applyDeadband(m_driverController.getRawAxis(1)*0.5, 0.05),
+            MathUtil.applyDeadband(m_driverController.getRawAxis(0)*0.5, 0.05),
             MathUtil.applyDeadband(m_driverController.getRawAxis(4) * 4, 0.01),
             true
           ),
@@ -95,6 +99,12 @@ public class RobotContainer {
       .whileTrue(
         new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive)
       );
+    new JoystickButton(m_twangController, 6)
+      .onTrue(new spinFire(m_shooter));
+    // new JoystickButton(m_twangController, 5)
+    //   .onTrue(
+    //     new RunCommand(spinFire)
+    //   );
     // new JoystickButton(m_driverController, 8).onTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     //Trigger on front = 100%
     // button1.whileTrue(vChange10);
@@ -142,9 +152,9 @@ public class RobotContainer {
       // Start at the origin facing the +X direction
       new Pose2d(0, 0, new Rotation2d(0)),
       // Pass through these two interior waypoints, making an 's' curve path
-      List.of(new Translation2d(0,1), new Translation2d(1, 1), new Translation2d(2,1), new Translation2d(2, 0)),
+      List.of(new Translation2d(11.22, 0),new Translation2d(11.22, 4.25),new Translation2d(8.22, 5)),
       // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(0, 0, new Rotation2d(0)),
+      new Pose2d(10.22, 3.25, new Rotation2d(0)),
       config
     );
 
