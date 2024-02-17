@@ -26,6 +26,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.spinFire;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
+  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   // private final varChange025 vChange025 = new varChange025();
   // private final varChange05 vChange05 = new varChange05();
   // private final varChange10 vChange10 = new varChange10();
@@ -105,6 +107,11 @@ public class RobotContainer {
     //   .onTrue(
     //     new RunCommand(spinFire)
     //   );
+    new JoystickButton(m_twangController, 2)
+      .whileTrue(
+        new RunCommand(() -> m_IntakeSubsystem.IntakeSPIIIIIIIIIIIIIIN(0.5), m_IntakeSubsystem)
+      );
+
     // new JoystickButton(m_driverController, 8).onTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     //Trigger on front = 100%
     // button1.whileTrue(vChange10);
