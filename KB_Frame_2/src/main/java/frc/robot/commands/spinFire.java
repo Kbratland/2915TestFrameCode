@@ -34,6 +34,7 @@ public class spinFire extends CommandBase {
       System.currentTimeMillis() - start > 2000
     )
     {
+      System.out.println("shooting");
       m_RingStoreSubsystem.GastroIntestinalPush(0.5);
     }
   }

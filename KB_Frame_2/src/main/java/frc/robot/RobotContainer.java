@@ -15,7 +15,6 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -27,8 +26,11 @@ import frc.robot.commands.spinFire;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.RingStoreSubsystem;
 
 import java.util.List;
+
+import javax.print.attribute.standard.JobHoldUntil;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -43,6 +45,7 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private final RingStoreSubsystem m_RingStoreSubsystem = new RingStoreSubsystem();
   // private final varChange025 vChange025 = new varChange025();
   // private final varChange05 vChange05 = new varChange05();
   // private final varChange10 vChange10 = new varChange10();
@@ -50,7 +53,15 @@ public class RobotContainer {
   // private final spinFire m_shoot = new spinFire(m_shooter);
   // The driver's controller
   Joystick m_driverController = new Joystick(1);
+  JoystickButton driveButton7 = new JoystickButton(m_driverController, 7);
+  JoystickButton driveButton8 = new JoystickButton(m_driverController, 8);
+  JoystickButton driveButton9 = new JoystickButton(m_driverController, 9);
+
   Joystick m_twangController = new Joystick(2);
+  JoystickButton twangButton2 = new JoystickButton(m_twangController, 2);
+  JoystickButton twangButton9 = new JoystickButton(m_twangController, 9);
+  JoystickButton twangButton6 = new JoystickButton(m_twangController, 6);
+  
   // JoystickButton button1 = new JoystickButton(m_driverController, 1);
   // JoystickButton button2 = new JoystickButton(m_driverController, 2);
   // JoystickButton button3 = new JoystickButton(m_driverController, 3);
@@ -89,29 +100,19 @@ public class RobotContainer {
    */
   //I FIXED THE CODE FOR YOU ALREADY, DON'T TOUCH IT!!!!!!!
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, 7)
-      .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
-    new JoystickButton(m_driverController, 9)
-      .whileTrue(
-        new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive)
-      );
-    new JoystickButton(m_driverController, 8)
-      .onTrue(new RunCommand(() -> m_robotDrive.setRelative(), m_robotDrive));
-    new JoystickButton(m_driverController, 8)
-      .whileTrue(
-        new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive)
-      );
-    new JoystickButton(m_twangController, 6)
-      .onTrue(new spinFire(m_shooter));
-    // new JoystickButton(m_twangController, 5)
-    //   .onTrue(
-    //     new RunCommand(spinFire)
-    //   );
-    new JoystickButton(m_twangController, 2)
-      .whileTrue(
-        new RunCommand(() -> m_IntakeSubsystem.IntakeSPIIIIIIIIIIIIIIN(0.5), m_IntakeSubsystem)
-      );
+    driveButton7.whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
 
+    driveButton9.whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+
+    driveButton8.onTrue(new RunCommand(() -> m_robotDrive.setRelative(), m_robotDrive));
+    driveButton8.onFalse(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+
+    twangButton6.onTrue(new spinFire(m_shooter));
+
+    twangButton9.whileTrue(new RunCommand(() -> m_RingStoreSubsystem.GastroIntestinalPush(0.5), m_RingStoreSubsystem));
+
+    twangButton2.whileTrue(new RunCommand(() -> m_IntakeSubsystem.IntakeSPIIIIIIIIIIIIIIN(0.5), m_IntakeSubsystem));
+    twangButton2.onFalse(new RunCommand(() -> m_IntakeSubsystem.IntakeStop(), m_IntakeSubsystem));
     // new JoystickButton(m_driverController, 8).onTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
     //Trigger on front = 100%
     // button1.whileTrue(vChange10);
