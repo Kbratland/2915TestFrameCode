@@ -1,16 +1,24 @@
-package frc.robot.commands;
+// package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+// import edu.wpi.first.wpilibj2.command.CommandBase;
+// import frc.robot.subsystems.DriveSubsystem;
+// import frc.robot.subsystems.eyeSpy;
 
-public class moveToRange extends CommandBase {
+// public class moveToRange extends CommandBase {
 
-  public moveToRange() {}
+// DriveSubsystem m_DriveSubsystem;
+// eyeSpy cam;
 
-  public void initialize() {}
+// public moveToRange(DriveSubsystem m_DriveSubsystem, eyeSpy cam) {
+// this.m_DriveSubsystem = m_DriveSubsystem;
+// this.cam = cam;
+// }
 
-  public void execute() {}
+// public void initialize() {}
 
-  public boolean isFinished() {
-    return false;
-  }
-}
+// public void execute() {}
+
+// public boolean isFinished() {
+// return false;
+// }
+// }
