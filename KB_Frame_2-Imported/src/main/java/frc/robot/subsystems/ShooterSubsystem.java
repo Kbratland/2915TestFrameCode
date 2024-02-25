@@ -2,8 +2,10 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.DriveConstants;
@@ -21,8 +23,20 @@ public class ShooterSubsystem extends SubsystemBase
     private RelativeEncoder RLEncoder;
     private RelativeEncoder RREncoder;
 
-    public void Launch(double fLSpeed, double fRSpeed, double rLSpeed, double rRSpeed)
+    PIDController pider = new PIDController(
+        DriveConstants.kTurnP,
+        DriveConstants.kTurnI,
+        DriveConstants.kTurnD
+      );
+
+    public void Launch(double speed)
     {
+        double fLSpeed = -speed;
+        double fRSpeed = speed;
+        double rLSpeed = -speed/1.2;
+        double rRSpeed = speed/1.2;
+        pider.enableContinuousInput(0, 1);
+        
         FLEncoder = FLShoot.getEncoder();
         FREncoder = FRShoot.getEncoder();
         RLEncoder = RLShoot.getEncoder();

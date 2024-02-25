@@ -56,12 +56,12 @@ public final class Constants {
     // SPARK MAX CAN IDs
     public static final int kFrontLeftDrivingCanId = 5;
     public static final int kRearLeftDrivingCanId = 4;
-    public static final int kFrontRightDrivingCanId = 8;
+    public static final int kFrontRightDrivingCanId = 7;
     public static final int kRearRightDrivingCanId = 10;
 
     public static final int kFrontLeftTurningCanId = 6;
     public static final int kRearLeftTurningCanId = 3;
-    public static final int kFrontRightTurningCanId = 7;
+    public static final int kFrontRightTurningCanId = 8;
     public static final int kRearRightTurningCanId = 9;
 
     public static final int kFrontRightShooterCanId = 22;
@@ -78,7 +78,15 @@ public final class Constants {
     public static final int kLeftClimberCanId = 31;
     public static final int kRightClimberCanId = 32;
 
+    public static final int ringSwitch = 0;
+
+    public static final double kTurnP = 0.65;
+    public static final double kTurnI = 0;
+    public static final double kTurnD = 0.1;
+
     public static final boolean kGyroReversed = false;
+    public static double kTurnToleranceDeg;
+    public static double kTurnRateToleranceDegPerS;
   }
 
   public static final class ModuleConstants {

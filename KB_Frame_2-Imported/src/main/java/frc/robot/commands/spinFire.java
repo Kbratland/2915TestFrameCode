@@ -17,6 +17,7 @@ public class spinFire extends Command {
   private double rRSpeed = DB_mode;
   private ShooterSubsystem m_ShooterSubsystem;
   private RingStoreSubsystem m_RingStoreSubsystem;
+  private double speed = 0.5;
   public spinFire(ShooterSubsystem m_ShooterSubsystem) {
     this.m_ShooterSubsystem = m_ShooterSubsystem;
 
@@ -27,7 +28,7 @@ public class spinFire extends Command {
   }
 
   public void execute() {
-    m_ShooterSubsystem.Launch(fLSpeed, fRSpeed, rLSpeed, rRSpeed);
+    m_ShooterSubsystem.Launch(speed);
     System.out.println("attempting to shoot");
     if((
       m_ShooterSubsystem.getSpeed(1) > 1000 &&

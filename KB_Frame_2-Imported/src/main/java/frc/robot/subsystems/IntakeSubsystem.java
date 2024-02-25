@@ -14,8 +14,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void IntakeSPIIIIIIIIIIIIIIN(double speed) {
         // System.out.println("SLURP");
-        UpperSlurper.set(ControlMode.PercentOutput, (-3*speed));
-        LowerSlurper.set(ControlMode.PercentOutput, (-1*speed));
+        UpperSlurper.set(ControlMode.PercentOutput, (3*speed));
+        LowerSlurper.set(ControlMode.PercentOutput, (speed));
         // m_RingStoreSubsystem.GastroIntestinalPush(0.3);
     }
 

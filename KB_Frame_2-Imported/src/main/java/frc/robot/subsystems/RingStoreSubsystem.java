@@ -13,8 +13,8 @@ public class RingStoreSubsystem extends SubsystemBase{
 
     public void GastroIntestinalPush(double thirst)
     {
-        LeftStore.set(-thirst);
-        RightStore.set(thirst);
+        LeftStore.set(thirst);
+        RightStore.set(-thirst);
     }
 
     public void Flush()

@@ -22,12 +22,14 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.Intake;
 import frc.robot.commands.spinFire;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.RingStoreSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.RingCheckSubsystem;
 
 import java.util.List;
 
@@ -46,6 +48,7 @@ public class RobotContainer {
     private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
     private final RingStoreSubsystem m_RingStoreSubsystem = new RingStoreSubsystem();
     private final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
+    private final RingCheckSubsystem m_RingCheckSubsystem = new RingCheckSubsystem();
     // private final varChange025 vChange025 = new varChange025();
     // private final varChange05 vChange05 = new varChange05();
     // private final varChange10 vChange10 = new varChange10();
@@ -108,12 +111,17 @@ public class RobotContainer {
         driveButton8.onTrue(new RunCommand(() -> m_robotDrive.setRelative(), m_robotDrive));
         driveButton8.onFalse(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
 
-        twangButton6.onTrue(new spinFire(m_shooter));
+        twangButton6.whileTrue(new RunCommand(() -> m_shooter.Launch(1), m_shooter));
+        twangButton6.onFalse(new RunCommand(() -> m_shooter.EndLaunch(), m_shooter));
+        twangButton6.whileTrue(new RunCommand(() -> m_RingStoreSubsystem.GastroIntestinalPush(0.75), m_RingStoreSubsystem));
+        twangButton6.onFalse(new RunCommand(() -> m_RingStoreSubsystem.Flush(), m_RingStoreSubsystem));
 
         twangButton9.whileTrue(new RunCommand(() -> m_RingStoreSubsystem.GastroIntestinalPush(0.75), m_RingStoreSubsystem));
+        twangButton9.onFalse(new RunCommand(() -> m_RingStoreSubsystem.Flush(), m_RingStoreSubsystem));
 
-        twangButton2.whileTrue(new RunCommand(() -> m_IntakeSubsystem.IntakeSPIIIIIIIIIIIIIIN(.5), m_IntakeSubsystem));
-        twangButton2.onFalse(new RunCommand(() -> m_IntakeSubsystem.IntakeStop(), m_IntakeSubsystem));
+        twangButton2.onTrue(new Intake(m_IntakeSubsystem, m_RingCheckSubsystem, m_RingStoreSubsystem));
+        //twangButton2.whileTrue(new RunCommand(() -> m_IntakeSubsystem.IntakeSPIIIIIIIIIIIIIIN(.5), m_IntakeSubsystem));
+        //twangButton2.onFalse(new RunCommand(() -> m_IntakeSubsystem.IntakeStop(), m_IntakeSubsystem));
         twangButton3.whileTrue(new RunCommand(() -> m_shooter.zucc(), m_shooter));
         // new JoystickButton(m_driverController, 8).onTrue(new RunCommand(() ->
         // m_robotDrive.zeroHeading(), m_robotDrive));
