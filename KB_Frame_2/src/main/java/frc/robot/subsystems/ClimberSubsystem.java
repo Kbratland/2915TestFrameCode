@@ -11,7 +11,7 @@ public class ClimberSubsystem extends SubsystemBase {
     private final TalonSRX ClimberLeft = new TalonSRX(DriveConstants.kLeftClimber);
     private final TalonSRX ClimberRight = new TalonSRX(DriveConstants.kRightClimber);
 
-    public void Uppies() {
+    public void Uppies2() {
 
         ClimberLeft.set(ControlMode.PercentOutput, 0.5);
         ClimberRight.set(ControlMode.PercentOutput, 0.5);

@@ -74,6 +74,9 @@ public final class Constants {
     public static final int kUpperIntakeCanId = 34;
     public static final int kLowerIntakeCanId = 33;
 
+    public static final int kLeftClimber = 31;
+    public static final int kRightClimber = 32;
+
     public static final boolean kGyroReversed = false;
   }
 
