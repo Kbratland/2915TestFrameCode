@@ -52,16 +52,17 @@ public class RobotContainer {
         // private final varChange075 vChange075 = new varChange075();
         // private final spinFire m_shoot = new spinFire(m_shooter);
         // The driver's controller
-        Joystick m_driverController = new Joystick(1);
-        JoystickButton driveButton7 = new JoystickButton(m_driverController, 7);
-        JoystickButton driveButton8 = new JoystickButton(m_driverController, 8);
-        JoystickButton driveButton9 = new JoystickButton(m_driverController, 9);
+        Joystick m_driverController = new Joystick(0);
+        JoystickButton driveButton1 = new JoystickButton(m_driverController, 1);
+        JoystickButton driveButton2 = new JoystickButton(m_driverController, 2);
+        // JoystickButton driveButton9 = new JoystickButton(m_driverController, 9);
 
-        Joystick m_twangController = new Joystick(2);
+        Joystick m_twangController = new Joystick(1);
+        JoystickButton twangButton1 = new JoystickButton(m_twangController, 1);
         JoystickButton twangButton2 = new JoystickButton(m_twangController, 2);
         JoystickButton twangButton9 = new JoystickButton(m_twangController, 9);
         JoystickButton twangButton6 = new JoystickButton(m_twangController, 6);
-
+        JoystickButton twangButton3 = new JoystickButton(m_twangController, 3);
         JoystickButton twangButton4 = new JoystickButton(m_twangController, 4);
         JoystickButton twangButton5 = new JoystickButton(m_twangController, 5);
 
@@ -82,13 +83,13 @@ public class RobotContainer {
                                 new RunCommand(
                                                 () -> m_robotDrive.drive(
                                                                 MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(1) * 0.5,
+                                                                                m_driverController.getRawAxis(1),
                                                                                 0.05),
                                                                 MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(0) * 0.5,
+                                                                                m_driverController.getRawAxis(0),
                                                                                 0.05),
                                                                 MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(4) * 4,
+                                                                                m_driverController.getRawAxis(2)*0.75,
                                                                                 0.01),
                                                                 true),
                                                 m_robotDrive));
@@ -106,22 +107,26 @@ public class RobotContainer {
         // I FIXED THE CODE FOR YOU ALREADY, DON'T TOUCH IT!!!!!!!
         private void configureButtonBindings() {
 
-                driveButton7.whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
-                driveButton9.whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
-                driveButton8.onTrue(new RunCommand(() -> m_robotDrive.setRelative(), m_robotDrive));
-                driveButton8.onFalse(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+                driveButton1.whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+                // driveButton9.whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+                driveButton2.onTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+                driveButton2.whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+                // driveButton8.onFalse(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
 
-                twangButton9.whileTrue(new RunCommand(() -> m_RingStoreSubsystem.GastroIntestinalPush(0.75),
-                                m_RingStoreSubsystem));
-                twangButton2.whileTrue(new RunCommand(() -> m_IntakeSubsystem.IntakeSPIIIIIIIIIIIIIIN(0.75),
-                                m_IntakeSubsystem));
-
-                twangButton2.onFalse(new RunCommand(() -> m_IntakeSubsystem.IntakeStop(), m_IntakeSubsystem));
+                twangButton9.whileTrue(new RunCommand(()-> m_shooter.Launch(0.125), m_shooter));
+                twangButton2.whileTrue(new RunCommand(() -> m_shooter.Launch(-0.25),m_shooter));
+                twangButton1.onTrue(new RunCommand(()-> m_IntakeSubsystem.IntakeSPIIIIIIIIIIIIIIN(0.45), m_IntakeSubsystem));
+                twangButton1.onFalse(new RunCommand(() -> m_IntakeSubsystem.IntakeStop(), m_IntakeSubsystem));
+                twangButton2.onFalse(new RunCommand(() -> m_shooter.EndLaunch(), m_shooter));
                 twangButton4.onTrue(new RunCommand(() -> m_ClimberSubsystem.Uppies(), m_ClimberSubsystem));
                 twangButton4.onFalse(new RunCommand(() -> m_ClimberSubsystem.narr(), m_ClimberSubsystem));
                 twangButton5.onTrue(new RunCommand(() -> m_ClimberSubsystem.Downies(), m_ClimberSubsystem));
                 twangButton5.onFalse(new RunCommand(() -> m_ClimberSubsystem.narr(), m_ClimberSubsystem));
-                twangButton6.onTrue(new spinFire(m_shooter));
+                twangButton3.onTrue(new RunCommand(()-> m_RingStoreSubsystem.GastroIntestinalPush(0.75), m_RingStoreSubsystem));
+                twangButton3.onFalse(new RunCommand(()-> m_RingStoreSubsystem.Flush(), m_RingStoreSubsystem));
+                twangButton6.onTrue(new RunCommand(()-> m_shooter.Launch(1), m_shooter));
+                twangButton6.onFalse(new RunCommand(()-> m_shooter.EndLaunch(), m_shooter));
+                twangButton9.onFalse(new RunCommand(()-> m_shooter.EndLaunch(), m_shooter));
         }
 
         // public class ComplexAuto extends SequentialCommandGroup {
@@ -159,10 +164,9 @@ public class RobotContainer {
                                 // Start at the origin facing the +X direction
                                 new Pose2d(0, 0, new Rotation2d(0)),
                                 // Pass through these two interior waypoints, making an 's' curve path
-                                List.of(new Translation2d(11.22, 0), new Translation2d(11.22, 4.25),
-                                                new Translation2d(8.22, 5)),
+                                List.of(new Translation2d(0, 3)),
                                 // End 3 meters straight ahead of where we started, facing forward
-                                new Pose2d(10.22, 3.25, new Rotation2d(0)),
+                                new Pose2d(0, 3, new Rotation2d(0)),
                                 config);
 
                 var thetaController = new ProfiledPIDController(
@@ -187,7 +191,7 @@ public class RobotContainer {
                 m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
                 // Run path following command, then stop at the end.
                 return Commands
-                                .runOnce(() -> m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose()))
+                                .runOnce(() -> m_shooter.Launch(1))
                                 .andThen(swerveControllerCommand);
         }
 }

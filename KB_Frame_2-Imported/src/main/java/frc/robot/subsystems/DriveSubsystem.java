@@ -216,7 +216,7 @@ public class DriveSubsystem extends SubsystemBase {
           ySpeedDelivered,
           rotDelivered,
           Rotation2d.fromDegrees(m_gyro.getAngle()));
-    System.out.println("speeds " + speeds.vxMetersPerSecond + ", " + speeds.vyMetersPerSecond);
+    //System.out.println("speeds " + speeds.vxMetersPerSecond + ", " + speeds.vyMetersPerSecond);
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
       fieldRelative
@@ -306,6 +306,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     m_gyro.reset();
+    System.out.println("Zero Heading");
   }
 
   /**

@@ -19,7 +19,7 @@ public class RingStoreSubsystem extends SubsystemBase{
 
     public void Flush()
     {
-        System.out.println("Done Storing");
+        //System.out.println("Done Storing");
         LeftStore.set(0);
         RightStore.set(0);
     }

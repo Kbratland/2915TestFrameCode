@@ -8,16 +8,11 @@ import frc.robot.subsystems.RingStoreSubsystem;
 
 
 public class spinFire extends Command {
-  private double DB_mode = .5;
   private long start;
   private long duration = 3000;
-  private double fLSpeed = -1 * DB_mode;
-  private double fRSpeed = DB_mode;
-  private double rLSpeed = -1 * DB_mode;
-  private double rRSpeed = DB_mode;
   private ShooterSubsystem m_ShooterSubsystem;
   private RingStoreSubsystem m_RingStoreSubsystem;
-  private double speed = 0.5;
+  private double speed = 0.85;
   public spinFire(ShooterSubsystem m_ShooterSubsystem) {
     this.m_ShooterSubsystem = m_ShooterSubsystem;
 
