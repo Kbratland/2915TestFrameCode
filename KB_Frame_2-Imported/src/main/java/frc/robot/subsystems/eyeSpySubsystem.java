@@ -7,40 +7,40 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class eyeSpySubsystem extends SubsystemBase {
     PhotonCamera photonCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
-    public double getTargetYaw(){
- 
-    var result = photonCamera.getLatestResult();
-       if(result.hasTargets()){
+
+    public double getTargetYaw() {
+
+        var result = photonCamera.getLatestResult();
+        if (result.hasTargets()) {
             PhotonTrackedTarget targetX = result.getBestTarget();
-            //System.out.println("I have a target X " + targetX);
+            // System.out.println("I have a target X " + targetX);
             return targetX.getYaw();
-       }
-       else{
-        return (0);
-       }
-   }
-   public double getTargetPitch(){
+        } else {
+            return (0);
+        }
+    }
 
-    var result = photonCamera.getLatestResult();
-        if(result.hasTargets()){
+    public double getTargetPitch() {
+
+        var result = photonCamera.getLatestResult();
+        if (result.hasTargets()) {
             PhotonTrackedTarget targetY = result.getBestTarget();
-            //System.out.println("I have target Y " + targetY);
+            // System.out.println("I have target Y " + targetY);
             return targetY.getPitch();
+        } else {
+            return (0);
         }
-        else{
-         return (0);
-        }
-}
-public double getTargetArea(){
+    }
 
-    var result = photonCamera.getLatestResult();
-        if(result.hasTargets()){
+    public double getTargetArea() {
+
+        var result = photonCamera.getLatestResult();
+        if (result.hasTargets()) {
             PhotonTrackedTarget targetA = result.getBestTarget();
-            //System.out.println("I have target Y " + targetA);
+            // System.out.println("I have target Y " + targetA);
             return targetA.getArea();
+        } else {
+            return (0);
         }
-        else{
-         return (0);
-        }
-}
+    }
 }

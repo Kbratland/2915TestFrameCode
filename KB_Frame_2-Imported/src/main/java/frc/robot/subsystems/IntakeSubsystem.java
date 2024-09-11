@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.Constants.DriveConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -14,7 +13,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void IntakeSPIIIIIIIIIIIIIIN(double speed) {
         // System.out.println("SLURP");
-        UpperSlurper.set(ControlMode.PercentOutput, (3*speed));
+        UpperSlurper.set(ControlMode.PercentOutput, (3 * speed));
         LowerSlurper.set(ControlMode.PercentOutput, (speed));
         // m_RingStoreSubsystem.GastroIntestinalPush(0.3);
     }

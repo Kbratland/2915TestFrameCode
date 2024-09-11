@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -22,14 +24,11 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.spinFire;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.RingStoreSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
-
-import java.util.List;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -89,7 +88,7 @@ public class RobotContainer {
                                                                                 m_driverController.getRawAxis(0),
                                                                                 0.05),
                                                                 MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(2)*0.75,
+                                                                                m_driverController.getRawAxis(2) * 0.75,
                                                                                 0.01),
                                                                 true),
                                                 m_robotDrive));
@@ -108,25 +107,29 @@ public class RobotContainer {
         private void configureButtonBindings() {
 
                 driveButton1.whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
-                // driveButton9.whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+                // driveButton9.whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(),
+                // m_robotDrive));
                 driveButton2.onTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
                 driveButton2.whileTrue(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
-                // driveButton8.onFalse(new RunCommand(() -> m_robotDrive.zeroHeading(), m_robotDrive));
+                // driveButton8.onFalse(new RunCommand(() -> m_robotDrive.zeroHeading(),
+                // m_robotDrive));
 
-                twangButton9.whileTrue(new RunCommand(()-> m_shooter.Launch(0.125), m_shooter));
-                twangButton2.whileTrue(new RunCommand(() -> m_shooter.Launch(-0.25),m_shooter));
-                twangButton1.onTrue(new RunCommand(()-> m_IntakeSubsystem.IntakeSPIIIIIIIIIIIIIIN(0.45), m_IntakeSubsystem));
+                twangButton9.whileTrue(new RunCommand(() -> m_shooter.Launch(0.125), m_shooter));
+                twangButton2.whileTrue(new RunCommand(() -> m_shooter.Launch(-0.25), m_shooter));
+                twangButton1.onTrue(new RunCommand(() -> m_IntakeSubsystem.IntakeSPIIIIIIIIIIIIIIN(0.45),
+                                m_IntakeSubsystem));
                 twangButton1.onFalse(new RunCommand(() -> m_IntakeSubsystem.IntakeStop(), m_IntakeSubsystem));
                 twangButton2.onFalse(new RunCommand(() -> m_shooter.EndLaunch(), m_shooter));
                 twangButton4.onTrue(new RunCommand(() -> m_ClimberSubsystem.Uppies(), m_ClimberSubsystem));
                 twangButton4.onFalse(new RunCommand(() -> m_ClimberSubsystem.narr(), m_ClimberSubsystem));
                 twangButton5.onTrue(new RunCommand(() -> m_ClimberSubsystem.Downies(), m_ClimberSubsystem));
                 twangButton5.onFalse(new RunCommand(() -> m_ClimberSubsystem.narr(), m_ClimberSubsystem));
-                twangButton3.onTrue(new RunCommand(()-> m_RingStoreSubsystem.GastroIntestinalPush(0.75), m_RingStoreSubsystem));
-                twangButton3.onFalse(new RunCommand(()-> m_RingStoreSubsystem.Flush(), m_RingStoreSubsystem));
-                twangButton6.onTrue(new RunCommand(()-> m_shooter.Launch(1), m_shooter));
-                twangButton6.onFalse(new RunCommand(()-> m_shooter.EndLaunch(), m_shooter));
-                twangButton9.onFalse(new RunCommand(()-> m_shooter.EndLaunch(), m_shooter));
+                twangButton3.onTrue(new RunCommand(() -> m_RingStoreSubsystem.GastroIntestinalPush(0.75),
+                                m_RingStoreSubsystem));
+                twangButton3.onFalse(new RunCommand(() -> m_RingStoreSubsystem.Flush(), m_RingStoreSubsystem));
+                twangButton6.onTrue(new RunCommand(() -> m_shooter.Launch(1), m_shooter));
+                twangButton6.onFalse(new RunCommand(() -> m_shooter.EndLaunch(), m_shooter));
+                twangButton9.onFalse(new RunCommand(() -> m_shooter.EndLaunch(), m_shooter));
         }
 
         // public class ComplexAuto extends SequentialCommandGroup {
