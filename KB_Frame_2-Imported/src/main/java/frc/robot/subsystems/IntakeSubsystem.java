@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
+
     // private RingStoreSubsystem m_RingStoreSubsystem = new RingStoreSubsystem();
     private final TalonSRX UpperSlurper = new TalonSRX(DriveConstants.kUpperIntakeCanId);
     private final TalonSRX LowerSlurper = new TalonSRX(DriveConstants.kLowerIntakeCanId);

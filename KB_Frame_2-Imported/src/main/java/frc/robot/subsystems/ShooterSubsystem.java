@@ -63,10 +63,14 @@ public class ShooterSubsystem extends SubsystemBase {
     public double getSpeed(int motorNum) {
         double encoderOut = 0;
         switch (motorNum) {
-            case 1 -> encoderOut = FLEncoder.getVelocity();
-            case 2 -> encoderOut = FREncoder.getVelocity();
-            case 3 -> encoderOut = RLEncoder.getVelocity();
-            case 4 -> encoderOut = RREncoder.getVelocity();
+            case 1 ->
+                encoderOut = FLEncoder.getVelocity();
+            case 2 ->
+                encoderOut = FREncoder.getVelocity();
+            case 3 ->
+                encoderOut = RLEncoder.getVelocity();
+            case 4 ->
+                encoderOut = RREncoder.getVelocity();
             default -> {
             }
         }

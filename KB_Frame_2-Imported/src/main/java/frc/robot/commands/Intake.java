@@ -6,6 +6,7 @@ import frc.robot.subsystems.RingCheckSubsystem;
 import frc.robot.subsystems.RingStoreSubsystem;
 
 public class Intake extends Command {
+
     IntakeSubsystem m_IntakeSubsystem;
     RingCheckSubsystem m_RingCheckSubsystem;
     RingStoreSubsystem m_RingStoreSubsystem;

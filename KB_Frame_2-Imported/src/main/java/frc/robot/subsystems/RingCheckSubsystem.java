@@ -5,18 +5,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class RingCheckSubsystem extends SubsystemBase {
-  DigitalInput shooterSwitch = null;
 
-  public RingCheckSubsystem() {
-    shooterSwitch = new DigitalInput(DriveConstants.ringSwitch);
-  }
+    DigitalInput shooterSwitch = null;
 
-  public boolean isShooterSwitchClosed() {
-    return shooterSwitch.get();
-  }
+    public RingCheckSubsystem() {
+        shooterSwitch = new DigitalInput(DriveConstants.ringSwitch);
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    public boolean isShooterSwitchClosed() {
+        return shooterSwitch.get();
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 }

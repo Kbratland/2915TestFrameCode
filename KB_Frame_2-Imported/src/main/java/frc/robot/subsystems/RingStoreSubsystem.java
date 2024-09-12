@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class RingStoreSubsystem extends SubsystemBase {
+
     private final CANSparkMax LeftStore = new CANSparkMax(DriveConstants.kLeftStoreCanId, MotorType.kBrushed);
     private final CANSparkMax RightStore = new CANSparkMax(DriveConstants.kRightStoreCanId, MotorType.kBrushed);
 

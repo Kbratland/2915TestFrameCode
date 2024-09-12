@@ -6,6 +6,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class eyeSpySubsystem extends SubsystemBase {
+
     PhotonCamera photonCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
     public double getTargetYaw() {
