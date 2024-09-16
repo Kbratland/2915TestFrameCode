@@ -20,15 +20,13 @@ import edu.wpi.first.math.util.Units;
  * It is advised to statically import this class (or one of its inner classes)
  * wherever the constants are needed, to reduce verbosity.
  */
-@SuppressWarnings("All")
 public final class Constants {
 
-    @SuppressWarnings("All")
     public static final class DriveConstants {
 
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        @SuppressWarnings("All")
+        @SuppressWarnings("LocalVariableName")
         public static final double kMaxSpeedMetersPerSecond = 4.8;
         public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
