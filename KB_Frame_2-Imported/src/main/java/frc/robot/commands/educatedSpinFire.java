@@ -48,7 +48,7 @@ public class educatedSpinFire extends Command {
                 ySpeed = -.15;
             } else if (m_EyeSubsystem.getTargetArea() <= 0.8) {
                 ySpeed = 0.15;
-            } else if (m_EyeSubsystem.getTargetArea() <= 0.3 && m_EyeSubsystem.getTargetArea() >= 0.8) {
+            } else if (m_EyeSubsystem.getTargetArea() >= 0.3 && m_EyeSubsystem.getTargetArea() <= 0.8) {
                 ySpeed = 0;
                 if (m_EyeSubsystem.getTargetYaw() >= 0.2) {
                     rotSpeed = -0.15;
